@@ -3,181 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACU Database - 2726</title>
+    <title>ACU Central Database - 2726</title>
     <style>
         :root {
-            --bg-color: #0a0a0c;
-            --card-bg: #16161a;
+            --bg-color: #050507;
+            --card-bg: #111114;
             --primary-neon: #00f2ff;
             --villain-neon: #ff0055;
             --text-color: #e0e0e0;
-            --border-color: #333;
+            --border-color: #2a2a2e;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
+            font-family: 'Pretendard', sans-serif;
+            margin: 0; padding: 20px; line-height: 1.6;
+            overflow-x: hidden;
         }
 
         header {
-            text-align: center;
-            padding: 50px 0;
-            border-bottom: 2px solid var(--primary-neon);
+            text-align: center; padding: 60px 0;
+            border-bottom: 1px solid var(--primary-neon);
             margin-bottom: 40px;
+            background: radial-gradient(circle at center, #102030 0%, transparent 70%);
         }
 
         h1 {
-            font-size: 2.5rem;
-            letter-spacing: 5px;
+            font-size: 2.8rem; letter-spacing: 8px;
             color: var(--primary-neon);
-            text-shadow: 0 0 10px var(--primary-neon);
+            text-shadow: 0 0 15px var(--primary-neon);
             margin: 0;
         }
 
-        .world-info {
-            max-width: 900px;
-            margin: 0 auto 50px;
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 10px;
-            border-left: 5px solid var(--primary-neon);
-        }
-
         .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
+            text-align: center; color: #555;
+            letter-spacing: 3px; margin-bottom: 30px;
         }
 
+        /* Character Grid */
         .character-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px; max-width: 1300px; margin: 0 auto;
         }
 
         .char-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            border-radius: 12px; overflow: hidden;
+            transition: 0.3s; cursor: pointer;
+            position: relative;
         }
 
         .char-card:hover {
-            transform: translateY(-5px);
+            transform: scale(1.03);
             border-color: var(--primary-neon);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
         }
 
-        .char-img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            background: #222;
+        .char-img { width: 100%; height: 320px; object-fit: cover; filter: grayscale(30%); }
+        .char-card:hover .char-img { filter: grayscale(0%); }
+
+        .char-info { padding: 15px; border-top: 1px solid var(--border-color); }
+        .char-name { font-size: 1.3rem; font-weight: 800; display: flex; justify-content: space-between; }
+        .tag { font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+        .tag-villain { background: rgba(255, 0, 85, 0.2); color: var(--villain-neon); border: 1px solid var(--villain-neon); }
+        .tag-agent { background: rgba(0, 242, 255, 0.1); color: var(--primary-neon); border: 1px solid var(--primary-neon); }
+
+        /* Modal Styles */
+        .modal {
+            display: none; position: fixed; z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px);
+            align-items: center; justify-content: center;
         }
 
-        .char-info {
-            padding: 15px;
+        .modal-content {
+            background: #111; width: 90%; max-width: 900px;
+            max-height: 85vh; border: 1px solid var(--primary-neon);
+            border-radius: 20px; overflow-y: auto; display: flex; flex-wrap: wrap;
+            position: relative; animation: slideUp 0.4s ease;
         }
 
-        .char-name {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .close-btn {
+            position: absolute; right: 20px; top: 20px;
+            font-size: 2rem; color: #fff; cursor: pointer; z-index: 10;
         }
 
-        .char-tag {
-            font-size: 0.8rem;
-            padding: 3px 8px;
-            border-radius: 5px;
-            background: #333;
-        }
+        .modal-left { flex: 1; min-width: 350px; background: #000; }
+        .modal-left img { width: 100%; height: 100%; object-fit: cover; }
 
-        .tag-villain { color: var(--villain-neon); border: 1px solid var(--villain-neon); }
-        .tag-agent { color: var(--primary-neon); border: 1px solid var(--primary-neon); }
-
-        .char-arma {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-bottom: 10px;
-            font-style: italic;
-        }
-
-        .char-desc {
-            font-size: 0.85rem;
-            color: #ccc;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 100px;
-            font-size: 0.8rem;
-            color: #555;
-        }
+        .modal-right { flex: 1.2; padding: 40px; min-width: 350px; }
+        .modal-title { font-size: 2.5rem; margin-bottom: 10px; color: var(--primary-neon); }
+        .modal-quote { font-style: italic; color: #888; margin-bottom: 25px; border-left: 3px solid var(--primary-neon); padding-left: 15px; }
+        .detail-item { margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .detail-label { font-size: 0.8rem; color: #555; text-transform: uppercase; }
+        .arma-box { background: #1a1a1e; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid var(--villain-neon); }
     </style>
 </head>
 <body>
 
 <header>
     <h1>超상대책본부 (ACU)</h1>
-    <p>Anomaly Control Unit - Central Database v2.7.26</p>
+    <p>CLASSIFIED DATABASE ACCESS GRANTED</p>
 </header>
 
-<div class="world-info">
-    <h2 style="color: var(--primary-neon);">WORLD VIEW</h2>
-    <p><strong>F.F.L (Internal Safety Zone):</strong> 2726년 대한민국, 인류의 마지막 안전 구역. 고도로 문명화되었으나 외부 구역(EX-S)의 '뒤틀림'과 '불안정 개체'로부터 끊임없는 위협을 받고 있습니다.</p>
-    <p><strong>ARMA:</strong> 인간의 정신력과 영혼이 형상화된 도구. 각인자의 코어 에너지를 바탕으로 초자연적인 능력을 발휘하며, 한계를 넘어서는 '개방' 시 막대한 과부하를 동반합니다.</p>
-</div>
+<div class="character-grid" id="charGrid"></div>
 
-<div class="character-grid" id="charGrid">
+<div id="charModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="modal-left" id="modalImgBox"></div>
+        <div class="modal-right" id="modalInfoBox"></div>
     </div>
-
-<div class="footer">
-    &copy; 2726 ACU Administration. All rights reserved.
 </div>
 
 <script>
+    const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
+    
+    // 캐릭터 데이터 통합 (여기에 추가 정보를 입력)
     const characters = [
-        { name: "김상훈", code: "SH", type: "Non", role: "ACU 본부장", arma: "없음", desc: "차분하고 여유로운 성격으로 ACU를 총괄함." },
-        { name: "강희연", code: "HY", type: "Villain", role: "레이카", arma: "복종의 사슬", desc: "분홍빛 하트 눈동자. 대상을 즉시 지배하는 사슬을 다룸." },
-        { name: "안시연", code: "SY", type: "Villain", role: "할로우", arma: "수확자", desc: "영혼을 베어내는 거대 낫을 사용하는 은은한 광기의 소유자." },
-        { name: "박상현", code: "PS", type: "Agent", role: "렌 (네오젠)", arma: "하중", desc: "중력을 자유자재로 다루는 정의로운 에이전트." },
-        { name: "한채아", code: "HC", type: "Agent", role: "메디아 (하이드라)", arma: "생명의 지팡이", desc: "치유와 파괴를 동시에 행하는 희생적인 에이전트." },
-        { name: "윤세아", code: "SA", type: "Villain", role: "크로노", arma: "크로노스", desc: "시간을 강탈하고 정지시키는 냉혹한 시간의 지배자." },
-        { name: "설아린", code: "AR", type: "Agent", role: "유키 (칼리오페)", arma: "크리스탈", desc: "결정가루를 뿌려 대상을 결정화하는 발랄한 소녀." },
-        { name: "유시아", code: "UA", type: "Agent", role: "제로 (칼리오페)", arma: "미러", desc: "환영에 실체를 부여하는 양손검 사용자." },
-        { name: "백승현", code: "BS", type: "Villain", role: "마에스트로", arma: "피날레", desc: "충격파를 다루며 전장의 속도를 지휘하는 완벽주의자." },
-        { name: "최우석", code: "US", type: "Villain", role: "에스키스", arma: "모노크롬", desc: "잉크로 실체화된 무언가를 그려내는 광기 어린 예술가." }
+        { 
+            name: "강희연", code: "HY", type: "Villain", role: "레이카", 
+            age: 28, gender: "여", personality: "침착, 광기, 강한 지배욕", 
+            arma: "복종의 사슬", armaForm: "사슬",
+            basic: "하등하다 느낀 대상을 묶어 정신지배",
+            opening: "「낙인」: 거리 상관없이 대상 목에 낙인을 새겨 즉시 지배",
+            penalty: "최대 3명 지배 가능 (초과 시 첫 번째 지배 해제)",
+            quote: "어머, 오랜만이네?♡"
+        },
+        { 
+            name: "안시연", code: "SY", type: "Villain", role: "할로우", 
+            age: 23, gender: "여", personality: "차갑고 조용함, 은은한 광기", 
+            arma: "수확자", armaForm: "거대 낫",
+            basic: "살해 시 영혼 흡수 및 손상",
+            opening: "「소멸」: 100m 이내 대상의 영혼을 확정으로 베어냄",
+            penalty: "축적된 영혼 소모",
+            quote: "곧 네 영혼도... 흐흐...으흐흐!"
+        },
+        { 
+            name: "박상현", code: "PS", type: "Agent", role: "렌", 
+            age: 32, gender: "남", personality: "정의롭고 용맹함", 
+            arma: "하중", armaForm: "거대 망치",
+            basic: "중력 자유자재 전환",
+            opening: "「중력장」: 특정 대상에게 가해지는 중력 가중치 조정",
+            penalty: "신체 피로도 급격한 상승",
+            quote: "네놈을 반드시... 심판해주마!!"
+        },
+        { 
+            name: "윤세아", code: "SA", type: "Villain", role: "크로노", 
+            age: 26, gender: "여", personality: "이성적, 냉혹, 독립적", 
+            arma: "크로노스", armaForm: "회중시계",
+            basic: "시간 강탈, 1초 건너뛰기/되감기",
+            opening: "「시간정지」: 본인 제외 전 구역 시간 정지",
+            penalty: "축적된 시간 소모",
+            quote: "...내 시간을 낭비하게 하지마."
+        }
+        // ... 다른 캐릭터들도 이 형식으로 추가 가능
     ];
 
     const grid = document.getElementById('charGrid');
-    const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
 
-    characters.forEach(char => {
-        const typeClass = char.type === 'Villain' ? 'tag-villain' : (char.type === 'Agent' ? 'tag-agent' : '');
-        const card = `
-            <div class="char-card">
-                <img src="${imgBase}${char.code}1.png" class="char-img" onerror="this.src='https://via.placeholder.com/300x400?text=NO+IMAGE'">
-                <div class="char-info">
-                    <div class="char-name">
-                        ${char.name}
-                        <span class="char-tag ${typeClass}">${char.role}</span>
+    function renderCards() {
+        characters.forEach((char, index) => {
+            const typeClass = char.type === 'Villain' ? 'tag-villain' : 'tag-agent';
+            grid.innerHTML += `
+                <div class="char-card" onclick="openModal(${index})">
+                    <img src="${imgBase}${char.code}1.png" class="char-img" onerror="this.src='https://via.placeholder.com/300x400?text=DATA+LOST'">
+                    <div class="char-info">
+                        <div class="char-name">${char.name} <span class="tag ${typeClass}">${char.role}</span></div>
+                        <div style="font-size:0.8rem; color:#666;">${char.arma}</div>
                     </div>
-                    <div class="char-arma">ARMA: ${char.arma}</div>
-                    <div class="char-desc">${char.desc}</div>
                 </div>
+            `;
+        });
+    }
+
+    function openModal(index) {
+        const char = characters[index];
+        const modal = document.getElementById('charModal');
+        const imgBox = document.getElementById('modalImgBox');
+        const infoBox = document.getElementById('modalInfoBox');
+
+        // 상태코드 4번(개방) 이미지를 gif로 불러옴
+        imgBox.innerHTML = `<img src="${imgBase}${char.code}4.gif" onerror="this.src='${imgBase}${char.code}1.png'">`;
+        
+        infoBox.innerHTML = `
+            <div class="modal-title">${char.name}</div>
+            <div class="modal-quote">"${char.quote}"</div>
+            <div class="detail-item"><span class="detail-label">Age / Sex</span><br>${char.age}세 / ${char.gender}</div>
+            <div class="detail-item"><span class="detail-label">Personality</span><br>${char.personality}</div>
+            
+            <div class="arma-box" style="border-color: ${char.type === 'Villain' ? '#ff0055' : '#00f2ff'}">
+                <strong style="color:#fff;">ARMA: ${char.arma} (${char.armaForm})</strong><br>
+                <small>기능: ${char.basic}</small><br><br>
+                <strong style="color:var(--primary-neon);">[개방] ${char.opening}</strong><br>
+                <small style="color:#ff9999;">페널티: ${char.penalty}</small>
             </div>
         `;
-        grid.innerHTML += card;
-    });
+
+        modal.style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById('charModal').style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('charModal')) closeModal();
+    }
+
+    renderCards();
 </script>
 
 </body>
