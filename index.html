@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACU Database - 2726</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0c;
+            --card-bg: #16161a;
+            --primary-neon: #00f2ff;
+            --villain-neon: #ff0055;
+            --text-color: #e0e0e0;
+            --border-color: #333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 0;
+            border-bottom: 2px solid var(--primary-neon);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            color: var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon);
+            margin: 0;
+        }
+
+        .world-info {
+            max-width: 900px;
+            margin: 0 auto 50px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-neon);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .char-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .char-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-neon);
+        }
+
+        .char-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            background: #222;
+        }
+
+        .char-info {
+            padding: 15px;
+        }
+
+        .char-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .char-tag {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 5px;
+            background: #333;
+        }
+
+        .tag-villain { color: var(--villain-neon); border: 1px solid var(--villain-neon); }
+        .tag-agent { color: var(--primary-neon); border: 1px solid var(--primary-neon); }
+
+        .char-arma {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .char-desc {
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 100px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>超상대책본부 (ACU)</h1>
+    <p>Anomaly Control Unit - Central Database v2.7.26</p>
+</header>
+
+<div class="world-info">
+    <h2 style="color: var(--primary-neon);">WORLD VIEW</h2>
+    <p><strong>F.F.L (Internal Safety Zone):</strong> 2726년 대한민국, 인류의 마지막 안전 구역. 고도로 문명화되었으나 외부 구역(EX-S)의 '뒤틀림'과 '불안정 개체'로부터 끊임없는 위협을 받고 있습니다.</p>
+    <p><strong>ARMA:</strong> 인간의 정신력과 영혼이 형상화된 도구. 각인자의 코어 에너지를 바탕으로 초자연적인 능력을 발휘하며, 한계를 넘어서는 '개방' 시 막대한 과부하를 동반합니다.</p>
+</div>
+
+<div class="character-grid" id="charGrid">
+    </div>
+
+<div class="footer">
+    &copy; 2726 ACU Administration. All rights reserved.
+</div>
+
+<script>
+    const characters = [
+        { name: "김상훈", code: "SH", type: "Non", role: "ACU 본부장", arma: "없음", desc: "차분하고 여유로운 성격으로 ACU를 총괄함." },
+        { name: "강희연", code: "HY", type: "Villain", role: "레이카", arma: "복종의 사슬", desc: "분홍빛 하트 눈동자. 대상을 즉시 지배하는 사슬을 다룸." },
+        { name: "안시연", code: "SY", type: "Villain", role: "할로우", arma: "수확자", desc: "영혼을 베어내는 거대 낫을 사용하는 은은한 광기의 소유자." },
+        { name: "박상현", code: "PS", type: "Agent", role: "렌 (네오젠)", arma: "하중", desc: "중력을 자유자재로 다루는 정의로운 에이전트." },
+        { name: "한채아", code: "HC", type: "Agent", role: "메디아 (하이드라)", arma: "생명의 지팡이", desc: "치유와 파괴를 동시에 행하는 희생적인 에이전트." },
+        { name: "윤세아", code: "SA", type: "Villain", role: "크로노", arma: "크로노스", desc: "시간을 강탈하고 정지시키는 냉혹한 시간의 지배자." },
+        { name: "설아린", code: "AR", type: "Agent", role: "유키 (칼리오페)", arma: "크리스탈", desc: "결정가루를 뿌려 대상을 결정화하는 발랄한 소녀." },
+        { name: "유시아", code: "UA", type: "Agent", role: "제로 (칼리오페)", arma: "미러", desc: "환영에 실체를 부여하는 양손검 사용자." },
+        { name: "백승현", code: "BS", type: "Villain", role: "마에스트로", arma: "피날레", desc: "충격파를 다루며 전장의 속도를 지휘하는 완벽주의자." },
+        { name: "최우석", code: "US", type: "Villain", role: "에스키스", arma: "모노크롬", desc: "잉크로 실체화된 무언가를 그려내는 광기 어린 예술가." }
+    ];
+
+    const grid = document.getElementById('charGrid');
+    const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
+
+    characters.forEach(char => {
+        const typeClass = char.type === 'Villain' ? 'tag-villain' : (char.type === 'Agent' ? 'tag-agent' : '');
+        const card = `
+            <div class="char-card">
+                <img src="${imgBase}${char.code}1.png" class="char-img" onerror="this.src='https://via.placeholder.com/300x400?text=NO+IMAGE'">
+                <div class="char-info">
+                    <div class="char-name">
+                        ${char.name}
+                        <span class="char-tag ${typeClass}">${char.role}</span>
+                    </div>
+                    <div class="char-arma">ARMA: ${char.arma}</div>
+                    <div class="char-desc">${char.desc}</div>
+                </div>
+            </div>
+        `;
+        grid.innerHTML += card;
+    });
+</script>
+
+</body>
+</html>
