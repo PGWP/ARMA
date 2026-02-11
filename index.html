@@ -43,24 +43,67 @@
         /* Main Content Area */
         main { flex: 1; padding: 40px; overflow-y: auto; }
         .section { display: none; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.5s ease; }
-        .section.active { display: block; }
+/* --- [수정] 페이지 전환 애니메이션 --- */
+        .section { 
+            display: none; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            opacity: 0;
+        }
+        .section.active { display: block; animation: fadeIn 0.4s forwards; }
+        .section.fade-out { display: block; animation: fadeOut 0.4s forwards; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes fadeOut { 
+            from { opacity: 1; transform: translateY(0); } 
+            to { opacity: 0; transform: translateY(-10px); } 
+        }
 
-        /* --- WORLDVIEW STYLE --- */
+        /* --- [유지] WORLDVIEW 나열식 스타일 --- */
         .world-content { 
-    max-width: 850px; 
-    margin: 0 auto; 
-    line-height: 1.8; 
-}
-.world-item { 
-    margin-bottom: 50px; 
-    padding-bottom: 20px; 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* 아래에 얇은 줄을 그어 구분해줍니다 */
-}
-        .info-box { background: var(--bg-card); padding: 25px; border-radius: 10px; border-left: 4px solid var(--neon-blue); }
-        .info-box h3 { color: var(--neon-blue); margin-top: 0; }
+            max-width: 850px; 
+            margin: 0 auto; 
+            line-height: 1.8; 
+        }
+        .world-item { 
+            margin-bottom: 50px; 
+            padding-bottom: 20px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+        }
+        .world-item h3 { color: var(--neon-blue); font-size: 1.6rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; letter-spacing: 2px; }
+        .world-sub-item { margin-top: 25px; padding-left: 20px; border-left: 2px solid #333; }
+        .world-sub-item h4 { color: var(--neon-blue); margin-bottom: 5px; font-size: 1.1rem; filter: brightness(0.8); }
 
+        /* --- [추가] 레드 디자인 타임라인 스타일 --- */
+        .timeline { 
+            position: relative; 
+            padding: 40px 20px; 
+            max-width: 900px; 
+            margin: 0 auto; 
+        }
+        .timeline::before { 
+            content: ''; 
+            position: absolute; 
+            left: 31px; top: 0; 
+            width: 2px; height: 100%; 
+            background: linear-gradient(to bottom, transparent, var(--neon-blue), transparent); 
+        }
+        .time-item { position: relative; padding-left: 80px; margin-bottom: 50px; }
+        .time-item::before {
+            content: ''; position: absolute; left: 22px; top: 5px;
+            width: 20px; height: 20px; border-radius: 50%; background: #000;
+            border: 3px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); z-index: 2;
+        }
+        .time-date { font-family: 'Courier New', monospace; font-size: 1.1rem; color: var(--neon-blue); margin-bottom: 10px; display: block; letter-spacing: 2px; }
+        .time-content { 
+            background: rgba(20, 20, 24, 0.8); padding: 20px; border-radius: 4px; 
+            border-right: 4px solid var(--neon-blue); box-shadow: -5px 5px 15px rgba(0,0,0,0.5); transition: 0.3s;
+        }
+        .time-content:hover { background: rgba(30, 30, 35, 1); transform: translateX(5px); }
+        .time-content strong { color: var(--neon-blue); display: block; margin-bottom: 8px; font-size: 1.1rem; }
         /* --- CHARACTER STYLE (Grid) --- */
         .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
         .char-card {
@@ -150,20 +193,50 @@
     </div>
 
     <div id="time" class="section">
-        <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px;">작전 기록 (Timeline)</h2>
-        <div class="timeline">
-            <div class="time-item">
-                <div class="time-date">2726.02.11 14:20</div>
-                <div class="time-content">
-                    <strong>[기록 시작]</strong> ACU 본부에서 신규 에이전트(PC) 접견. 본부장 김상훈, 외부구역 뒤틀림 발생 빈도 증가에 따른 경계 태세 강화 지시.
-                </div>
+    <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 40px; letter-spacing: 5px;">CHRONICLES OF ACU</h2>
+    
+    <div class="timeline">
+        <div class="time-item">
+            <div class="time-date">ERA : THE BEGINNING</div>
+            <div class="time-content">
+                <strong>프로토코어 발견</strong>
+                인간의 영혼 속에 잠재된 무한한 에너지원, '프로토코어'의 존재가 확인되었습니다. 이는 인류가 아르마(ARMA)라는 초월적인 힘을 다룰 수 있게 된 최초의 기점입니다.
             </div>
-            <div class="time-item">
-                <div class="time-date">SYSTEM LOG</div>
-                <div class="time-content">새로운 사건 기록을 기다리고 있습니다...</div>
+        </div>
+
+        <div class="time-item" style="opacity: 0.6;">
+            <div class="time-date" style="color: #666;">ERA : [DATA LOST]</div>
+            <div class="time-content" style="border-right-color: #444; background: repeating-linear-gradient(45deg, #111, #111 10px, #16161a 10px, #16161a 20px);">
+                <strong style="color: #888;">[ ACCESS DENIED ]</strong>
+                해당 기간에 진행된 특정 실험 및 프로젝트에 관한 기록이 관리자에 의해 영구 말소되었습니다. 복구 시도 시 보안 프로토콜이 작동됩니다.
+            </div>
+        </div>
+
+        <div class="time-item">
+            <div class="time-date">ERA : THE CHAOS</div>
+            <div class="time-content">
+                <strong>혼돈의 시기</strong>
+                초상 현상의 급격한 팽창과 통제되지 않는 능력자들의 속출로 기존의 사회 질서가 무너졌습니다. 외부 구역(EX-S)에서 넘어오는 '뒤틀림'들이 인류를 위협하던 시기입니다.
+            </div>
+        </div>
+
+        <div class="time-item">
+            <div class="time-date">ERA : CURRENT (2726)</div>
+            <div class="time-content">
+                <strong>F.F.L 설립 및 정착</strong>
+                내부 안전 구역(F.F.L)이 선포되었습니다. 초상대책본부(ACU)와 주요 후원사(네오젠, 하이드라, 칼리오페)가 연합하여 인류 최후의 보루를 구축하고 현재의 평화를 유지하고 있습니다.
+            </div>
+        </div>
+
+        <div class="time-item" style="border-left-style: dashed;">
+            <div class="time-date" style="color: var(--neon-pink);">ERA : THE FUTURE</div>
+            <div class="time-content" style="border-right-color: var(--neon-pink); box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);">
+                <strong style="color: var(--neon-pink);">복수의 시간</strong>
+                [예정된 사건] 보이지 않는 곳에서 쌓여온 원한과 뒤틀린 욕망이 폭발할 준비를 마쳤습니다. 인류는 이제 자신이 저지른 과오에 대한 대가를 치러야 합니다.
             </div>
         </div>
     </div>
+</div>
 </main>
 
 <div id="charModal" class="modal" onclick="if(event.target==this) closeModal()">
@@ -185,13 +258,35 @@
         // 추가 캐릭터 데이터...
     ];
 
-    function showSection(sectionId) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-links span').forEach(l => l.classList.remove('active'));
-        
-        document.getElementById(sectionId).classList.add('active');
-        document.getElementById('link-' + sectionId).classList.add('active');
+    /* ... (위에는 캐릭터 데이터(const characters) 등이 있습니다) ... */
+
+    // 1. 여기서부터 붙여넣기!
+    let currentSectionId = 'chars'; 
+
+    function showSection(nextId) {
+        if (currentSectionId === nextId) return;
+
+        const currentEl = document.getElementById(currentSectionId);
+        const nextEl = document.getElementById(nextId);
+
+        currentEl.classList.remove('active');
+        currentEl.classList.add('fade-out');
+
+        setTimeout(() => {
+            currentEl.classList.remove('fade-out');
+            
+            document.querySelectorAll('.nav-links span').forEach(l => l.classList.remove('active'));
+            document.getElementById('link-' + nextId).classList.add('active');
+
+            nextEl.classList.add('active');
+            currentSectionId = nextId;
+        }, 400); 
     }
+    // 2. 여기까지 붙여넣기 끝!
+
+    /* ... (그 아래에는 renderChars() 같은 실행 함수들이 있습니다) ... */
+</script>
+</body>
 
     function renderChars() {
         const grid = document.getElementById('charGrid');
