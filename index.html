@@ -48,7 +48,16 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- WORLDVIEW STYLE --- */
-        .world-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .world-content { 
+    max-width: 850px; 
+    margin: 0 auto; 
+    line-height: 1.8; 
+}
+.world-item { 
+    margin-bottom: 50px; 
+    padding-bottom: 20px; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* 아래에 얇은 줄을 그어 구분해줍니다 */
+}
         .info-box { background: var(--bg-card); padding: 25px; border-radius: 10px; border-left: 4px solid var(--neon-blue); }
         .info-box h3 { color: var(--neon-blue); margin-top: 0; }
 
@@ -101,23 +110,37 @@
 </nav>
 
 <main>
-    <div id="world" class="section">
-        <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px;">세계관 브리핑</h2>
-        <div class="world-grid">
-            <div class="info-box">
-                <h3>📍 주요 구역</h3>
-                <p><strong>F.F.L:</strong> 내부안전구역. 고도로 문명화된 최후의 보루.</p>
-                <p><strong>EX-S:</strong> 외부구역. 뒤틀림과 위험이 도사리는 버려진 땅.</p>
+<div id="world" class="section">
+        <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 40px; letter-spacing: 5px;">WORLDVIEW DATABASE</h2>
+        
+        <div class="world-content">
+            <div class="world-item">
+                <h3>📍 구역 (Districts)</h3>
+                <p><strong>F.F.L (Internal Safety Zone):</strong> 2726년 대한민국을 기반으로 한 내부안전구역입니다. 인류의 기술력이 집약된 최후의 보루이자 고도로 문명화된 구역입니다.</p>
+                <p><strong>EX-S (External Zone):</strong> 외부구역으로, 차원의 틈에서 발생하는 '뒤틀림'과 기괴한 공격적 개체들이 도사리는 버려진 땅입니다.</p>
             </div>
-            <div class="info-box">
-                <h3>🏢 핵심 기업</h3>
-                <p><strong>네오젠:</strong> IT 및 기계 공학 주도.</p>
-                <p><strong>하이드라:</strong> 바이오 산업 및 의료 지원.</p>
-                <p><strong>칼리오페:</strong> 엔터테인먼트 및 에이전트 브랜딩.</p>
+
+            <div class="world-item">
+                <h3>⚙️ 아르마 (ARMA)</h3>
+                <p>개인의 선천적 에너지인 <strong>'프로토코어'</strong>를 추출하여 도구화한 고유 무기입니다. 개인마다 형태와 능력이 천차만별인 것이 특징입니다.</p>
+                
+                <div class="world-sub-item">
+                    <h4>▷ 개방 (Opening)</h4>
+                    <p>고유 무기인 아르마를 넘어 능력을 외부 영역(대상 또는 장소)에 직접 발현시키는 단계를 의미합니다.</p>
+                </div>
+
+                <div class="world-sub-item">
+                    <h4>▷ 페널티 (Penalty)</h4>
+                    <p>개방 사용 시 필연적으로 발생하는 과부하 혹은 제약 사항입니다. 사용자의 정신적, 신체적 역량에 따라 리스크가 동반됩니다.</p>
+                </div>
             </div>
-            <div class="info-box" style="grid-column: span 2;">
-                <h3>⚙️ 아르마(ARMA) 시스템</h3>
-                <p>개인의 <strong>프로토코어</strong>에서 추출한 에너지를 도구화한 고유 무기. '개방'을 통해 강력한 위력을 내지만, 사용자에게 정신적/신체적 과부하를 부여함.</p>
+
+            <div class="world-item">
+                <h3>🏢 주요 기관 및 후원사</h3>
+                <p><strong>초상대책본부 (ACU):</strong> 범죄 사건 수사, 분쟁 조정 및 에이전트 관리를 담당하는 정부 기관입니다.</p>
+                <p><strong>네오젠 인터네셔널:</strong> IT 및 기계 공학을 주도하는 대형 후원사입니다.</p>
+                <p><strong>하이드라 코퍼레이션:</strong> 바이오 산업 및 의료 지원을 주도하는 기업입니다.</p>
+                <p><strong>칼리오페 엔터프라이즈:</strong> 에이전트 브랜딩 및 엔터테인먼트 사업을 담당합니다.</p>
             </div>
         </div>
     </div>
