@@ -20,6 +20,7 @@
             font-family: 'Pretendard', 'Segoe UI', sans-serif;
             margin: 0; padding: 0;
             display: flex; flex-direction: column; height: 100vh;
+            overflow: hidden;
         }
 
         /* Navigation Bar */
@@ -31,7 +32,7 @@
             position: sticky; top: 0; z-index: 100;
         }
 
-        .logo { font-size: 1.5rem; font-weight: 900; color: var(--neon-blue); letter-spacing: 3px; }
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--neon-blue); letter-spacing: 3px; cursor: pointer; }
         
         .nav-links { display: flex; gap: 30px; }
         .nav-links span {
@@ -42,8 +43,8 @@
 
         /* Main Content Area */
         main { flex: 1; padding: 40px; overflow-y: auto; }
-        .section { display: none; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.5s ease; }
-/* --- [수정] 페이지 전환 애니메이션 --- */
+        
+        /* --- [애니메이션] 페이지 전환 --- */
         .section { 
             display: none; 
             max-width: 1200px; 
@@ -62,49 +63,14 @@
             to { opacity: 0; transform: translateY(-10px); } 
         }
 
-        /* --- [유지] WORLDVIEW 나열식 스타일 --- */
-        .world-content { 
-            max-width: 850px; 
-            margin: 0 auto; 
-            line-height: 1.8; 
-        }
-        .world-item { 
-            margin-bottom: 50px; 
-            padding-bottom: 20px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-        }
+        /* --- WORLDVIEW 리포트 스타일 --- */
+        .world-content { max-width: 850px; margin: 0 auto; line-height: 1.8; }
+        .world-item { margin-bottom: 50px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .world-item h3 { color: var(--neon-blue); font-size: 1.6rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; letter-spacing: 2px; }
         .world-sub-item { margin-top: 25px; padding-left: 20px; border-left: 2px solid #333; }
         .world-sub-item h4 { color: var(--neon-blue); margin-bottom: 5px; font-size: 1.1rem; filter: brightness(0.8); }
 
-        /* --- [추가] 레드 디자인 타임라인 스타일 --- */
-        .timeline { 
-            position: relative; 
-            padding: 40px 20px; 
-            max-width: 900px; 
-            margin: 0 auto; 
-        }
-        .timeline::before { 
-            content: ''; 
-            position: absolute; 
-            left: 31px; top: 0; 
-            width: 2px; height: 100%; 
-            background: linear-gradient(to bottom, transparent, var(--neon-blue), transparent); 
-        }
-        .time-item { position: relative; padding-left: 80px; margin-bottom: 50px; }
-        .time-item::before {
-            content: ''; position: absolute; left: 22px; top: 5px;
-            width: 20px; height: 20px; border-radius: 50%; background: #000;
-            border: 3px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); z-index: 2;
-        }
-        .time-date { font-family: 'Courier New', monospace; font-size: 1.1rem; color: var(--neon-blue); margin-bottom: 10px; display: block; letter-spacing: 2px; }
-        .time-content { 
-            background: rgba(20, 20, 24, 0.8); padding: 20px; border-radius: 4px; 
-            border-right: 4px solid var(--neon-blue); box-shadow: -5px 5px 15px rgba(0,0,0,0.5); transition: 0.3s;
-        }
-        .time-content:hover { background: rgba(30, 30, 35, 1); transform: translateX(5px); }
-        .time-content strong { color: var(--neon-blue); display: block; margin-bottom: 8px; font-size: 1.1rem; }
-        /* --- CHARACTER STYLE (Grid) --- */
+        /* --- CHARACTER Grid 스타일 --- */
         .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
         .char-card {
             background: var(--bg-card); border-radius: 12px; overflow: hidden;
@@ -114,26 +80,34 @@
         .char-card img { width: 100%; height: 280px; object-fit: cover; }
         .char-card-body { padding: 15px; }
 
-        /* --- TIMELINE STYLE --- */
-        .timeline { position: relative; padding: 20px 0; }
-        .timeline::before { content: ''; position: absolute; left: 20px; top: 0; width: 2px; height: 100%; background: var(--border); }
-        .time-item { position: relative; padding-left: 50px; margin-bottom: 30px; }
-        .time-item::before {
-            content: ''; position: absolute; left: 14px; top: 5px;
-            width: 14px; height: 14px; border-radius: 50%; background: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
+        /* --- TIMELINE 카드 스타일 --- */
+        .timeline { position: relative; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+        .timeline::before { 
+            content: ''; position: absolute; left: 31px; top: 0; width: 2px; height: 100%; 
+            background: linear-gradient(to bottom, transparent, var(--neon-blue), transparent); 
         }
-        .time-date { font-weight: bold; color: var(--neon-blue); font-family: monospace; }
-        .time-content { background: #1a1a1e; padding: 15px; border-radius: 8px; margin-top: 5px; border: 1px solid #333; }
+        .time-item { position: relative; padding-left: 80px; margin-bottom: 50px; }
+        .time-item::before {
+            content: ''; position: absolute; left: 22px; top: 5px; width: 20px; height: 20px; 
+            border-radius: 50%; background: #000; border: 3px solid var(--neon-blue); 
+            box-shadow: 0 0 15px var(--neon-blue); z-index: 2;
+        }
+        .time-date { font-family: 'Courier New', monospace; font-size: 1.1rem; color: var(--neon-blue); margin-bottom: 10px; display: block; letter-spacing: 2px; }
+        .time-content { 
+            background: rgba(20, 20, 24, 0.8); padding: 20px; border-radius: 4px; 
+            border-right: 4px solid var(--neon-blue); box-shadow: -5px 5px 15px rgba(0,0,0,0.5); transition: 0.3s;
+        }
+        .time-content:hover { background: rgba(30, 30, 35, 1); transform: translateX(5px); }
+        .time-content strong { color: var(--neon-blue); display: block; margin-bottom: 8px; font-size: 1.1rem; }
 
-        /* Modal (Previous functionality maintained) */
+        /* Modal 스타일 */
         .modal {
             display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); align-items: center; justify-content: center;
         }
         .modal-content {
             background: #111; width: 85%; max-width: 850px; border-radius: 15px; border: 1px solid var(--neon-blue);
-            display: flex; overflow: hidden; position: relative;
+            display: flex; overflow: hidden; position: relative; animation: fadeIn 0.3s;
         }
         .close-modal { position: absolute; right: 20px; top: 15px; font-size: 2rem; cursor: pointer; color: #fff; z-index: 10; }
         .modal-left { flex: 1; background: #000; }
@@ -144,7 +118,7 @@
 <body>
 
 <nav>
-    <div class="logo">ARMA</div>
+    <div class="logo" onclick="location.reload()">ARMA</div>
     <div class="nav-links">
         <span onclick="showSection('world')" id="link-world">Worldview</span>
         <span onclick="showSection('chars')" id="link-chars" class="active">Characters</span>
@@ -153,37 +127,25 @@
 </nav>
 
 <main>
-<div id="world" class="section">
+    <div id="world" class="section">
         <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 40px; letter-spacing: 5px;">WORLDVIEW DATABASE</h2>
-        
         <div class="world-content">
             <div class="world-item">
                 <h3>📍 구역 (Districts)</h3>
                 <p><strong>F.F.L (Internal Safety Zone):</strong> 2726년 대한민국을 기반으로 한 내부안전구역입니다. 인류의 기술력이 집약된 최후의 보루이자 고도로 문명화된 구역입니다.</p>
                 <p><strong>EX-S (External Zone):</strong> 외부구역으로, 차원의 틈에서 발생하는 '뒤틀림'과 기괴한 공격적 개체들이 도사리는 버려진 땅입니다.</p>
             </div>
-
             <div class="world-item">
                 <h3>⚙️ 아르마 (ARMA)</h3>
-                <p>개인의 선천적 에너지인 <strong>'프로토코어'</strong>를 추출하여 도구화한 고유 무기입니다. 개인마다 형태와 능력이 천차만별인 것이 특징입니다.</p>
-                
+                <p>개인의 선천적 에너지인 <strong>'프로토코어'</strong>를 추출하여 도구화한 고유 무기입니다.</p>
                 <div class="world-sub-item">
                     <h4>▷ 개방 (Opening)</h4>
-                    <p>고유 무기인 아르마를 넘어 능력을 외부 영역(대상 또는 장소)에 직접 발현시키는 단계를 의미합니다.</p>
+                    <p>고유 무기인 아르마를 넘어 능력을 외부 영역에 직접 발현시키는 단계를 의미합니다.</p>
                 </div>
-
                 <div class="world-sub-item">
                     <h4>▷ 페널티 (Penalty)</h4>
-                    <p>개방 사용 시 필연적으로 발생하는 과부하 혹은 제약 사항입니다. 사용자의 정신적, 신체적 역량에 따라 리스크가 동반됩니다.</p>
+                    <p>개방 사용 시 필연적으로 발생하는 과부하 혹은 제약 사항입니다.</p>
                 </div>
-            </div>
-
-            <div class="world-item">
-                <h3>🏢 주요 기관 및 후원사</h3>
-                <p><strong>초상대책본부 (ACU):</strong> 범죄 사건 수사, 분쟁 조정 및 에이전트 관리를 담당하는 정부 기관입니다.</p>
-                <p><strong>네오젠 인터네셔널:</strong> IT 및 기계 공학을 주도하는 대형 후원사입니다.</p>
-                <p><strong>하이드라 코퍼레이션:</strong> 바이오 산업 및 의료 지원을 주도하는 기업입니다.</p>
-                <p><strong>칼리오페 엔터프라이즈:</strong> 에이전트 브랜딩 및 엔터테인먼트 사업을 담당합니다.</p>
             </div>
         </div>
     </div>
@@ -193,50 +155,30 @@
     </div>
 
     <div id="time" class="section">
-    <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 40px; letter-spacing: 5px;">CHRONICLES OF ACU</h2>
-    
-    <div class="timeline">
-        <div class="time-item">
-            <div class="time-date">ERA : THE BEGINNING</div>
-            <div class="time-content">
-                <strong>프로토코어 발견</strong>
-                인간의 영혼 속에 잠재된 무한한 에너지원, '프로토코어'의 존재가 확인되었습니다. 이는 인류가 아르마(ARMA)라는 초월적인 힘을 다룰 수 있게 된 최초의 기점입니다.
+        <h2 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 40px; letter-spacing: 5px;">CHRONICLES OF ACU</h2>
+        <div class="timeline">
+            <div class="time-item">
+                <div class="time-date">ERA : THE BEGINNING</div>
+                <div class="time-content"><strong>프로토코어 발견</strong>인류가 아르마(ARMA)라는 힘을 다룰 수 있게 된 최초의 기점입니다.</div>
             </div>
-        </div>
-
-        <div class="time-item" style="opacity: 0.6;">
-            <div class="time-date" style="color: #666;">ERA : [DATA LOST]</div>
-            <div class="time-content" style="border-right-color: #444; background: repeating-linear-gradient(45deg, #111, #111 10px, #16161a 10px, #16161a 20px);">
-                <strong style="color: #888;">[ ACCESS DENIED ]</strong>
-                해당 기간에 진행된 특정 실험 및 프로젝트에 관한 기록이 관리자에 의해 영구 말소되었습니다. 복구 시도 시 보안 프로토콜이 작동됩니다.
+            <div class="time-item" style="opacity: 0.6;">
+                <div class="time-date" style="color: #666;">ERA : [DATA LOST]</div>
+                <div class="time-content" style="background: repeating-linear-gradient(45deg, #111, #111 10px, #16161a 10px, #16161a 20px);"><strong>[ ACCESS DENIED ]</strong>특정 실험 및 프로젝트에 관한 기록이 관리자에 의해 영구 말소되었습니다.</div>
             </div>
-        </div>
-
-        <div class="time-item">
-            <div class="time-date">ERA : THE CHAOS</div>
-            <div class="time-content">
-                <strong>혼돈의 시기</strong>
-                초상 현상의 급격한 팽창과 통제되지 않는 능력자들의 속출로 기존의 사회 질서가 무너졌습니다. 외부 구역(EX-S)에서 넘어오는 '뒤틀림'들이 인류를 위협하던 시기입니다.
+            <div class="time-item">
+                <div class="time-date">ERA : THE CHAOS</div>
+                <div class="time-content"><strong>혼돈의 시기</strong>초상 현상의 팽창과 통제되지 않는 능력자들로 사회 질서가 무너진 시기입니다.</div>
             </div>
-        </div>
-
-        <div class="time-item">
-            <div class="time-date">ERA : CURRENT (2726)</div>
-            <div class="time-content">
-                <strong>F.F.L 설립 및 정착</strong>
-                내부 안전 구역(F.F.L)이 선포되었습니다. 초상대책본부(ACU)와 주요 후원사(네오젠, 하이드라, 칼리오페)가 연합하여 인류 최후의 보루를 구축하고 현재의 평화를 유지하고 있습니다.
+            <div class="time-item">
+                <div class="time-date">ERA : CURRENT (2726)</div>
+                <div class="time-content"><strong>F.F.L 설립 및 정착</strong>인류 최후의 보루를 구축하고 현재의 평화를 유지하고 있습니다.</div>
             </div>
-        </div>
-
-        <div class="time-item" style="border-left-style: dashed;">
-            <div class="time-date" style="color: var(--neon-pink);">ERA : THE FUTURE</div>
-            <div class="time-content" style="border-right-color: var(--neon-pink); box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);">
-                <strong style="color: var(--neon-pink);">복수의 시간</strong>
-                [예정된 사건] 보이지 않는 곳에서 쌓여온 원한과 뒤틀린 욕망이 폭발할 준비를 마쳤습니다. 인류는 이제 자신이 저지른 과오에 대한 대가를 치러야 합니다.
+            <div class="time-item" style="border-left-style: dashed;">
+                <div class="time-date" style="color: var(--neon-pink);">ERA : THE FUTURE</div>
+                <div class="time-content" style="border-right-color: var(--neon-pink);"><strong>복수의 시간</strong>[예정된 사건] 인류는 자신이 저지른 과오에 대한 대가를 치러야 합니다.</div>
             </div>
         </div>
     </div>
-</div>
 </main>
 
 <div id="charModal" class="modal" onclick="if(event.target==this) closeModal()">
@@ -255,43 +197,28 @@
         { name: "안시연", code: "SY", type: "Villain", role: "할로우", arma: "수확자", quote: "곧 네 영혼도...", desc: "영혼을 베어내는 거대 낫을 사용하는 은은한 광기." },
         { name: "박상현", code: "PS", type: "Agent", role: "렌", arma: "하중", quote: "네놈을 반드시 심판해주마!!", desc: "중력을 다루는 네오젠 소속 대표 에이전트." },
         { name: "윤세아", code: "SA", type: "Villain", role: "크로노", arma: "크로노스", quote: "...시간 낭비하지 마.", desc: "시간을 강탈하고 정지시키는 냉혹한 지배자." }
-        // 추가 캐릭터 데이터...
     ];
 
-    /* ... (위에는 캐릭터 데이터(const characters) 등이 있습니다) ... */
-
-    // 1. 여기서부터 붙여넣기!
     let currentSectionId = 'chars'; 
 
     function showSection(nextId) {
         if (currentSectionId === nextId) return;
-
         const currentEl = document.getElementById(currentSectionId);
         const nextEl = document.getElementById(nextId);
 
-        currentEl.classList.remove('active');
         currentEl.classList.add('fade-out');
-
         setTimeout(() => {
-            currentEl.classList.remove('fade-out');
-            
+            currentEl.classList.remove('active', 'fade-out');
             document.querySelectorAll('.nav-links span').forEach(l => l.classList.remove('active'));
             document.getElementById('link-' + nextId).classList.add('active');
-
             nextEl.classList.add('active');
             currentSectionId = nextId;
         }, 400); 
     }
-    // 2. 여기까지 붙여넣기 끝!
-
-    /* ... (그 아래에는 renderChars() 같은 실행 함수들이 있습니다) ... */
-</script>
-</body>
 
     function renderChars() {
         const grid = document.getElementById('charGrid');
         characters.forEach((char, i) => {
-            const tagClass = char.type === 'Villain' ? 'tag-villain' : 'tag-agent';
             grid.innerHTML += `
                 <div class="char-card" onclick="openModal(${i})">
                     <img src="${imgBase}${char.code}1.png" onerror="this.src='https://via.placeholder.com/300x400?text=DATA'">
@@ -312,15 +239,13 @@
             <p style="font-style:italic; color:#888; border-left:3px solid var(--neon-blue); padding-left:10px;">"${char.quote}"</p>
             <p><strong>ARMA:</strong> ${char.arma}</p>
             <p style="color:#ccc; font-size:0.9rem;">${char.desc}</p>
-            <div style="margin-top:20px; padding:15px; background:#222; border-radius:8px; border:1px solid #444;">
-                <small style="color:var(--neon-blue);">Status: ACTIVE / CLEARANCE: TOP SECRET</small>
-            </div>
         `;
         document.getElementById('charModal').style.display = 'flex';
     }
 
     function closeModal() { document.getElementById('charModal').style.display = 'none'; }
 
+    // 초기 실행
     renderChars();
 </script>
 </body>
