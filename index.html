@@ -218,12 +218,11 @@
     ];
 
     let currentSectionId = 'chars'; 
-
+ let currentSectionId = 'chars'; 
     function showSection(nextId) {
         if (currentSectionId === nextId) return;
         const currentEl = document.getElementById(currentSectionId);
         const nextEl = document.getElementById(nextId);
-
         currentEl.classList.add('fade-out');
         setTimeout(() => {
             currentEl.classList.remove('active', 'fade-out');
@@ -233,9 +232,10 @@
             currentSectionId = nextId;
         }, 400); 
     }
-
     function renderChars() {
         const grid = document.getElementById('charGrid');
+        if(!grid) return;
+        grid.innerHTML = "";
         characters.forEach((char, i) => {
             grid.innerHTML += `
                 <div class="char-card" onclick="openModal(${i})">
@@ -248,7 +248,6 @@
             `;
         });
     }
-
     function openModal(i) {
         const char = characters[i];
         document.getElementById('modalImg').innerHTML = `<img src="${imgBase}${char.code}4.gif" onerror="this.src='${imgBase}${char.code}1.png'">`;
@@ -260,11 +259,9 @@
         `;
         document.getElementById('charModal').style.display = 'flex';
     }
-
     function closeModal() { document.getElementById('charModal').style.display = 'none'; }
-
-    // 초기 실행
-    renderChars();
+    // 모든 요소가 로드된 후 캐릭터 렌더링 시작
+    window.onload = renderChars;
 </script>
 </body>
 </html>
