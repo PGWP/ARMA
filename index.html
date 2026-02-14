@@ -193,10 +193,29 @@
     const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
     
     const characters = [
-        { name: "강희연", code: "HY", type: "Villain", role: "레이카", arma: "복종의 사슬", quote: "어머, 오랜만이네?♡", desc: "분홍빛 하트 눈동자. 대상을 즉시 지배하는 능력을 가짐." },
-        { name: "안시연", code: "SY", type: "Villain", role: "할로우", arma: "수확자", quote: "곧 네 영혼도...", desc: "영혼을 베어내는 거대 낫을 사용하는 은은한 광기." },
-        { name: "박상현", code: "PS", type: "Agent", role: "렌", arma: "하중", quote: "네놈을 반드시 심판해주마!!", desc: "중력을 다루는 네오젠 소속 대표 에이전트." },
-        { name: "윤세아", code: "SA", type: "Villain", role: "크로노", arma: "크로노스", quote: "...시간 낭비하지 마.", desc: "시간을 강탈하고 정지시키는 냉혹한 지배자." }
+        // 에이전트 (Agent)
+        { name: "박상현", code: "PS", type: "Agent", role: "렌", arma: "하중", quote: "네놈을 반드시... 심판해주마!!", desc: "네오젠 대표 에이전트. 거대 망치를 사용하며 중력을 조절합니다." },
+        { name: "한채아", code: "HC", type: "Agent", role: "메디아", arma: "생명의 지팡이", quote: "제 신호 따라서 천천히 심호흡 해보실래요?", desc: "하이드라 대표 에이전트. 2m 내 대상을 치유하거나 신체를 비틉니다." },
+        { name: "설아린", code: "AR", type: "Agent", role: "유키", arma: "크리스탈", quote: "짜잔! 유키 등장-!☆", desc: "칼리오페 대표 에이전트. 결정가루를 뿌려 대상을 결정화합니다." },
+        { name: "유시아", code: "UA", type: "Agent", role: "제로", arma: "미러", quote: "속전속결, 없애주마.", desc: "칼리오페 소속. 양손검을 사용하며 물리적 실체를 가진 환영을 생성합니다." },
+        { name: "임도진", code: "DJ", type: "Agent", role: "레인저", arma: "혜성", quote: "목표 확인, 발포 허가를 요청한다.", desc: "네오젠 소속. 빛의 속도로 날아가는 화살을 쏘며 위치를 탐지합니다." },
+        { name: "강단아", code: "DA", type: "Agent", role: "이그니스", arma: "드래곤 브레스", quote: "일단 태워버리고 보는거지!", desc: "하이드라 소속. 대검에서 강력한 불길을 방출합니다." },
+
+        // 빌런 (Villain)
+        { name: "강희연", code: "HY", type: "Villain", role: "레이카", arma: "복종의 사슬", quote: "어머, 오랜만이네?♡", desc: "분홍빛 하트 눈동자. 대상을 묶어 정신지배하는 능력을 가짐." },
+        { name: "안시연", code: "SY", type: "Villain", role: "할로우", arma: "수확자", quote: "곧 네 영혼도... 흐흐...으흐흐!", desc: "거대 낫을 사용하며 100m 이내 대상의 영혼을 베어냅니다." },
+        { name: "윤세아", code: "SA", type: "Villain", role: "크로노", arma: "크로노스", quote: "...내 시간을 낭비하게 하지마.", desc: "시간을 강탈하고 정지시키는 냉혹한 지배자입니다." },
+        { name: "백승현", code: "BS", type: "Villain", role: "마에스트로", arma: "피날레", quote: "피날레를 장식해보죠!", desc: "카타르시스 소속. 거대 봉으로 충격파를 형성하고 속도를 지휘합니다." },
+        { name: "최우석", code: "US", type: "Villain", role: "에스키스", arma: "모노크롬", quote: "크하하하! 여기도... 저기도...! 아름다워!", desc: "카타르시스 소속. 거대 붓으로 상상하는 모든 것을 구체화합니다." },
+
+        // 프리랜서 & 특수 (Freelancer / Special)
+        { name: "윤서우", code: "SW", type: "Freelancer", role: "프리랜서", arma: "미믹", quote: "걸리적거리네...", desc: "상대방의 아르마 능력을 복사하여 그대로 사용하는 능력을 가짐." },
+        { name: "네크로", code: "CR", type: "Special", role: "아르마의 잔재", arma: "네크로노미콘", quote: "가엾은것... 일어나.", desc: "시체를 조종하거나 저주 인형을 사용하는 수수께끼의 인물." },
+        { name: "에퀴녹스", code: "EN", type: "Special", role: "아르마의 잔재", arma: "차원 절단기", quote: "슥 그으면 그뿐인 것을.", desc: "차원의 틈을 만들며 거리와 규모 상관없이 공간을 절단합니다." },
+
+        // 무능력자 (Non-Power)
+        { name: "김상훈", code: "SH", type: "Non", role: "ACU 본부장", arma: "없음", quote: "아아... 그렇군요. 금방 해결해드리죠.", desc: "초상대책본부의 수장. 차분하고 사무적인 태도로 사건을 관리합니다." },
+        { name: "김현", code: "KH", type: "Non", role: "A.R.L 연구소장", arma: "없음", quote: "절차대로 진행하죠.", desc: "코어 추출 및 아르마 제작을 담당하는 연구소의 책임자입니다." }
     ];
 
     let currentSectionId = 'chars'; 
