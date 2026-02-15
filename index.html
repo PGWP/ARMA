@@ -71,11 +71,6 @@
         .world-sub-item h4 { color: var(--neon-blue); margin-bottom: 5px; font-size: 1.1rem; filter: brightness(0.8); }
 
         /* --- [수정] CHARACTER Grid 스타일 --- */
-        .char-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-            gap: 25px; 
-        }
         .char-card {
             background: var(--bg-card); 
             border-radius: 12px; 
@@ -92,14 +87,21 @@
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
         }
         
+        /* --- [최종 수정] 캐릭터 카드 이미지 최적화 --- */
         .char-card img { 
             width: 100%; 
-            /* [중요] 원본 비율인 2:3으로 설정 (NovelAI 세로형 표준) */
-            aspect-ratio: 2 / 3; 
-            object-fit: cover; 
-            /* 얼굴 부분이 잘리지 않도록 상단 고정 */
-            object-position: top center; 
+            height: auto; /* 고정 높이 삭제: 이미지의 원래 높이에 맞춤 */
+            display: block;
+            object-fit: contain; /* 이미지가 상자 안에서 절대 잘리지 않도록 설정 */
             border-bottom: 1px solid var(--border);
+            background-color: #000; /* 혹시 비율이 안 맞을 경우 빈 공간을 검은색으로 처리 */
+        }
+
+        .char-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; 
+            align-items: start; /* 카드들의 높이가 달라도 위쪽 기준으로 정렬 */
         }
         
         .char-card-body { 
