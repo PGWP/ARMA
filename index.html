@@ -97,11 +97,13 @@
             background-color: #000; /* 혹시 비율이 안 맞을 경우 빈 공간을 검은색으로 처리 */
         }
 
+        /* --- [수정] 한 줄에 2개씩 크게 보이도록 설정 --- */
         .char-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-            gap: 20px; 
-            align-items: start; /* 카드들의 높이가 달라도 위쪽 기준으로 정렬 */
+            /* 화면 너비의 절반 정도(약 45% 이상)를 차지하도록 최소 너비 상향 */
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
+            gap: 30px; 
+            padding: 0 20px; /* 좌우 여백을 조금 주어 균형을 맞춤 */
         }
         
         .char-card-body { 
