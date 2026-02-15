@@ -70,16 +70,44 @@
         .world-sub-item { margin-top: 25px; padding-left: 20px; border-left: 2px solid #333; }
         .world-sub-item h4 { color: var(--neon-blue); margin-bottom: 5px; font-size: 1.1rem; filter: brightness(0.8); }
 
-        /* --- CHARACTER Grid 스타일 --- */
-        .char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-        .char-card {
-            background: var(--bg-card); border-radius: 12px; overflow: hidden;
-            border: 1px solid var(--border); cursor: pointer; transition: 0.3s;
+        /* --- [수정] CHARACTER Grid 스타일 --- */
+        .char-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+            gap: 25px; 
         }
-        .char-card:hover { border-color: var(--neon-blue); transform: translateY(-5px); }
-        .char-card img { width: 100%; height: 280px; object-fit: cover; }
-        .char-card-body { padding: 15px; }
-
+        .char-card {
+            background: var(--bg-card); 
+            border-radius: 12px; 
+            overflow: hidden;
+            border: 1px solid var(--border); 
+            cursor: pointer; 
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .char-card:hover { 
+            border-color: var(--neon-blue); 
+            transform: translateY(-5px); 
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        }
+        
+        .char-card img { 
+            width: 100%; 
+            /* [중요] 원본 비율인 2:3으로 설정 (NovelAI 세로형 표준) */
+            aspect-ratio: 2 / 3; 
+            object-fit: cover; 
+            /* 얼굴 부분이 잘리지 않도록 상단 고정 */
+            object-position: top center; 
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .char-card-body { 
+            padding: 15px; 
+            background: var(--bg-card);
+            flex-grow: 1; /* 글자 영역이 이미지 아래에 딱 붙도록 설정 */
+        }
+        
         /* --- TIMELINE 카드 스타일 --- */
         .timeline { position: relative; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
         .timeline::before { 
