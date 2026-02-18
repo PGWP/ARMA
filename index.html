@@ -70,30 +70,37 @@
         .world-sub-item { margin-top: 25px; padding-left: 20px; border-left: 2px solid #333; }
         .world-sub-item h4 { color: var(--neon-blue); margin-bottom: 5px; font-size: 1.1rem; filter: brightness(0.8); }
 
-        /* --- [추가] 필터 버튼 스타일 --- */
-        .filter-box { 
-            display: flex; 
-            justify-content: center; 
-            gap: 10px; 
-            margin-bottom: 30px; 
-            flex-wrap: wrap; 
+        /* --- [수정] 필터 버튼 스타일 (반응형 줄바꿈) --- */
+        .filter-box {
+            display: flex;
+            justify-content: center; /* 가운데 정렬 */
+            flex-wrap: wrap; /* [핵심] 공간이 부족하면 자동으로 다음 줄로 넘김 */
+            gap: 10px; /* 버튼 사이 간격 */
+            margin-bottom: 20px;
+            padding: 0 10px; /* 좌우 여백을 주어 화면 끝에 딱 붙지 않게 함 */
         }
+
         .filter-btn {
+            /* 버튼 크기를 내용에 맞게 유동적으로 조절 */
+            flex: 0 1 auto; 
+            
             background: transparent;
             border: 1px solid #444;
             color: #888;
-            padding: 8px 16px;
+            padding: 8px 12px; /* 내부 여백 조절 */
             cursor: pointer;
             font-weight: bold;
             border-radius: 20px;
             transition: 0.3s;
-            font-size: 0.9rem;
+            font-size: 0.85rem; /* 글자 크기를 살짝 줄여서 모바일에서 더 많이 들어가게 함 */
+            white-space: nowrap; /* 글자가 버튼 안에서 줄바꿈되지 않도록 함 */
         }
+        
         .filter-btn:hover { border-color: var(--neon-blue); color: #fff; }
-        .filter-btn.active { 
-            background: rgba(0, 242, 255, 0.1); 
-            border-color: var(--neon-blue); 
-            color: var(--neon-blue); 
+        .filter-btn.active {
+            background: rgba(0, 242, 255, 0.1);
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
             box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
         }
 
