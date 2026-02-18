@@ -97,52 +97,63 @@
             box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
         }
 
-        /* --- [수정] CHARACTER Grid 스타일 --- */
+/* --- [수정] CHARACTER Grid 스타일 (반응형) --- */
+        .char-grid {
+            display: grid;
+            /* 모바일(기본): 무조건 한 줄에 1개씩 꽉 차게 */
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        /* PC 화면(768px 이상 태블릿/데스크탑) 설정 */
+        @media (min-width: 768px) {
+            .char-grid {
+                /* 화면이 넓어지면 2개씩 보기 좋게 나열 */
+                grid-template-columns: repeat(2, 1fr);
+                /* 만약 3개씩 놓고 싶으면 repeat(3, 1fr)로 변경하세요 */
+                 padding: 0;
+            }
+        }
+
         .char-card {
-            background: var(--bg-card); 
-            border-radius: 12px; 
+            background: var(--bg-card);
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid var(--border); 
-            cursor: pointer; 
+            border: 1px solid var(--border);
+            cursor: pointer;
             transition: 0.3s;
             display: flex;
             flex-direction: column;
         }
-        .char-card:hover { 
-            border-color: var(--neon-blue); 
-            transform: translateY(-5px); 
+        .char-card:hover {
+            border-color: var(--neon-blue);
+            transform: translateY(-5px);
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
         }
         
-/* 1. 그리드 설정 (PC: 2열 / 모바일: 1열) */
-        .char-grid { 
-            display: grid;
-            /* 모바일(기본): 한 줄에 1개 */
-            grid-template-columns: 1fr; 
-            gap: 20px; 
-            padding: 0 20px;
-        }
-
-        /* PC 화면(768px 이상): 한 줄에 2개 */
-        @media (min-width: 768px) {
-            .char-grid {
-                grid-template-columns: repeat(2, 1fr); 
-            }
-        }
-
-        /* 2. 카드 이미지 설정 (가로로 긴 와이드 비율) */
+        /* --- [핵심 수정] 캐릭터 카드 이미지 (5:3 가로 비율) --- */
         .char-card img {
             width: 100%;
-            height: auto; /* 높이 자동 조절 */
-            
-            /* [핵심] 가로:세로 = 16:9 비율 (유튜브 썸네일처럼 가로로 긴 형태) */
-            aspect-ratio: 16 / 9; 
-            
-            /* 이미지가 상자 안에 100% 다 들어오게 함 (절대 안 잘림) */
-            object-fit: contain; 
-            
-            background-color: #000; /* 빈 공간은 검은색 */
+            /* 높이는 비율에 맞춰 자동 조절 */
+            height: auto; 
+            display: block;
+
+            /* [중요] 요청하신 5:3 가로 비율 적용 */
+            aspect-ratio: 5 / 3;
+
+            /* 이미지가 잘리지 않고 상자 안에 100% 다 들어오도록 설정 */
+            object-fit: contain;
+
             border-bottom: 1px solid var(--border);
+            /* 이미지와 상자 비율이 안 맞을 때 생기는 여백 색상 (검은색) */
+            background-color: #000; 
+        }
+        
+        .char-card-body {
+            padding: 20px; /* 가로형이라 여백을 조금 더 줌 */
+            background: var(--bg-card);
+            flex-grow: 1;
         }
         
         .char-card-body { 
