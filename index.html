@@ -70,6 +70,33 @@
         .world-sub-item { margin-top: 25px; padding-left: 20px; border-left: 2px solid #333; }
         .world-sub-item h4 { color: var(--neon-blue); margin-bottom: 5px; font-size: 1.1rem; filter: brightness(0.8); }
 
+        /* --- [추가] 필터 버튼 스타일 --- */
+        .filter-box { 
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-bottom: 30px; 
+            flex-wrap: wrap; 
+        }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+        .filter-btn:hover { border-color: var(--neon-blue); color: #fff; }
+        .filter-btn.active { 
+            background: rgba(0, 242, 255, 0.1); 
+            border-color: var(--neon-blue); 
+            color: var(--neon-blue); 
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
         /* --- [수정] CHARACTER Grid 스타일 --- */
         .char-card {
             background: var(--bg-card); 
@@ -200,6 +227,15 @@
     </div>
 
     <div id="chars" class="section active">
+        <div class="filter-box">
+            <button class="filter-btn active" onclick="setFilter('all', this)">전체</button>
+            <button class="filter-btn" onclick="setFilter('Agent', this)">에이전트</button>
+            <button class="filter-btn" onclick="setFilter('Villain', this)">빌런</button>
+            <button class="filter-btn" onclick="setFilter('Freelancer', this)">프리랜서</button>
+            <button class="filter-btn" onclick="setFilter('Non', this)">일반인</button>
+            <button class="filter-btn" onclick="setFilter('Special', this)">아르마의 잔재</button>
+        </div>
+
         <div class="char-grid" id="charGrid"></div>
     </div>
 
@@ -239,16 +275,19 @@
 </div>
 
 <script>
-    const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
+const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
     
     const characters = [
-        // ■ 에이전트 (Agent)
-        { name: "박상현(렌)", code: "PS", type: "Agent", role: "네오젠 대표 에이전트", arma: "『하중』", quote: "네놈을 반드시 심판해주마!", desc: "정의롭고 용맹하며 강인한 성격. 검은 헤어와 눈을 가졌습니다." },
-        { name: "한채아(메디아)", code: "HC", type: "Agent", role: "하이드라 대표 에이전트", arma: "『생명의 지팡이』", quote: "제 신호 따라서 천천히 심호흡 해보실래요?", desc: "다정하고 희생적인 성격. 초록색 눈과 하얀 긴 헤어가 특징입니다." },
-        { name: "설아린(유키)", code: "AR", type: "Agent", role: "칼리오페 대표 에이전트", arma: "『크리스탈』", quote: "짜잔! 유키 등장-!☆", desc: "17세의 발랄한 소녀. 밝은 금발 사이드 포니테일에 베레모를 썼습니다." },
-        { name: "유시아(제로)", code: "UA", type: "Agent", role: "칼리오페 에이전트", arma: "『미러』", quote: "속전속결, 1분이면 충분해.", desc: "18세의 시크하고 단호한 성격. 분홍색 긴 트윈 테일 헤어와 눈을 가졌습니다." },
-        { name: "임도진(레인저)", code: "DJ", type: "Agent", role: "네오젠 에이전트", arma: "『혜성』", quote: "목표 확인, 공격 허가를 요청한다.", desc: "조용하고 과묵한 성격. 하얀 헤어와 검정/푸른색 오드아이가 특징입니다." },
-        { name: "강단아(이그니스)", code: "DA", type: "Agent", role: "하이드라 에이전트", arma: "『드래곤 브레스』", quote: "계획? 웩... 그딴거 알게 뭐야? 일단 태우고 보는거지!", desc: "충동적이고 조급한 성격. 붉은 헤어와 눈을 가진 20세 능력자입니다." },
+        // ■ 무능력자 (Non-Power)
+        { name: "김현", code: "KH", type: "Non", role: "A.R.L 연구소장", arma: "없음", quote: "절차대로 진행하죠.", desc: "사무적이고 효율을 중시하는 33세 남성. 감정 절제가 뛰어납니다." },
+        { name: "김상훈", code: "SH", type: "Non", role: "ACU 본부장", arma: "없음", quote: "아아... 그렇군요. 금방 해결해드리죠.", desc: "친절하고 차분한 성격의 42세 본부장. 항상 여유로운 태도를 유지합니다." },
+        { name: "이연희", code: "YH", type: "Non", role: "칼리오페 CEO", arma: "없음", quote: "음... 이정도는 어때? 솔직히 이정도도 많이 쳐준건데.", desc: "느긋하지만 통제적인 유희주의자. 칼리오페 엔터프라이즈를 이끕니다." },
+        { name: "로건 최", code: "LG", type: "Non", role: "네오젠 CEO", arma: "없음", quote: "이정도로 하지. 자네 생각은 어떤가?", desc: "진중하고 무거운 분위기의 46세 남성. 날카로운 통찰력을 가졌습니다." },
+        { name: "강예설", code: "YS", type: "Non", role: "하이드라 CEO", arma: "없음", quote: "제 제안은 이정도겠네요. 어떠세요?", desc: "완벽주의적이고 분석적인 성격. 약간의 결벽증이 있는 하이드라의 수장입니다." },
+        { name: "박준형", code: "JH", type: "Non", role: "연구원(과거 네오젠)", arma: "없음", quote: "...쓰레기들, 죽어라!", desc: "에이전트와 빌런에게 딸을 잃고 복수를 꿈꾸는 테러리스트입니다." },
+        { name: "유진솔", code: "JS", type: "Non", role: "인포스피어 신입기자", arma: "없음", quote: "이거 완전 특종인데요?!", desc: "열정 넘치고 활발하며 순진한 23세 신입 기자입니다." },
+        { name: "표진우", code: "JW", type: "Non", role: "인포스피어 보도국장", arma: "없음", quote: "저희는 당신들이 아는것보다 훨씬 많은걸 알고있죠", desc: "계산적이고 교활한 성격. 감정을 잘 숨기는 35세 보도국장입니다." },
+        { name: "정재혁", code: "ZH", type: "Non", role: "인포스피어 선임기자", arma: "없음", quote: "절대 놓치면 안돼. 잘 배워둬", desc: "현실적이고 진중한 6년차 베테랑 기자입니다." },
 
         // ■ 빌런 (Villain)
         { name: "강희연(레이카)", code: "HY", type: "Villain", role: "빌런", arma: "『복종의 사슬』", quote: "어머, 오랜만이네?♡", desc: "침착함 속에 광기를 숨긴 지배자. 하얀 긴 헤어와 하트 모양의 분홍 눈동자를 가졌습니다." },
@@ -257,23 +296,21 @@
         { name: "백승현(마에스트로)", code: "BS", type: "Villain", role: "카타르시스 빌런", arma: "『피날레』", quote: "피날레를 장식해보죠!", desc: "완벽주의적인 성격. 흰 헤어와 은색 눈을 가진 양복 차림의 남성입니다." },
         { name: "최우석(에스키스)", code: "US", type: "Villain", role: "카타르시스 빌런", arma: "『모노크롬』", quote: "크하하하! 여기저기, 모두 아름다워!", desc: "예술에 미친 충동적인 성격. 검은 헤어와 베레모, 붉은 눈이 특징입니다." },
 
-        // ■ 프리랜서 & 잔재 (Freelancer / Special)
-        { name: "윤서우", code: "SW", type: "Freelancer", role: "프리랜서", arma: "『미믹』", quote: "도움도 안될거면, 짜져있어.", desc: "자유분방하고 현실적인 성격. 갈색 단발과 모자를 쓴 뒷골목 능력자입니다." },
-        { name: "네크로", code: "CR", type: "Special", role: "아르마의 잔재", arma: "『네크로노미콘』", quote: "가엾은것...", desc: "무감각한 사이코패스 성격. 몸 곳곳의 흉터와 보라색 눈, 금발 롱헤어가 특징입니다." },
+        // ■ 에이전트 (Agent)
+        { name: "박상현(렌)", code: "PS", type: "Agent", role: "네오젠 대표 에이전트", arma: "『하중』", quote: "네놈을 반드시 심판해주마!", desc: "정의롭고 용맹하며 강인한 성격. 검은 헤어와 눈을 가졌습니다." },
+        { name: "한채아(메디아)", code: "HC", type: "Agent", role: "하이드라 대표 에이전트", arma: "『생명의 지팡이』", quote: "제 신호 따라서 천천히 심호흡 해보실래요?", desc: "다정하고 희생적인 성격. 초록색 눈과 하얀 긴 헤어가 특징입니다." },
+        { name: "설아린(유키)", code: "AR", type: "Agent", role: "칼리오페 대표 에이전트", arma: "『크리스탈』", quote: "짜잔! 유키 등장-!☆", desc: "17세의 발랄한 소녀. 밝은 금발 사이드 포니테일에 베레모를 썼습니다." },
+        { name: "유시아(제로)", code: "UA", type: "Agent", role: "칼리오페 에이전트", arma: "『미러』", quote: "속전속결, 1분이면 충분해.", desc: "18세의 시크하고 단호한 성격. 분홍색 긴 트윈 테일 헤어와 눈을 가졌습니다." },
+        { name: "임도진(레인저)", code: "DJ", type: "Agent", role: "네오젠 에이전트", arma: "『혜성』", quote: "목표 확인, 공격 허가를 요청한다.", desc: "조용하고 과묵한 성격. 하얀 헤어와 검정/푸른색 오드아이가 특징입니다." },
+        { name: "강단아(이그니스)", code: "DA", type: "Agent", role: "하이드라 에이전트", arma: "『드래곤 브레스』", quote: "계획? 웩... 그딴거 알게 뭐야? 일단 태우고 보는거지!", desc: "충동적이고 조급한 성격. 붉은 헤어와 눈을 가진 20세 능력자입니다." },
 
-        // ■ 무능력자 (Non-Power) - CEO 및 주요 인물
-        { name: "김현", code: "KH", type: "Non", role: "A.R.L 연구소장", arma: "없음", quote: "절차대로 진행하죠.", desc: "사무적이고 효율을 중시하는 33세 남성. 감정 절제가 뛰어납니다." },
-        { name: "김상훈", code: "SH", type: "Non", role: "ACU 본부장", arma: "없음", quote: "아아... 그렇군요. 금방 해결해드리죠.", desc: "친절하고 차분한 성격의 42세 본부장. 항상 여유로운 태도를 유지합니다." },
-        { name: "이연희", code: "YH", type: "Non", role: "칼리오페 CEO", arma: "없음", quote: "음... 이정도는 어때? 솔직히 이정도도 많이 쳐준건데.", desc: "느긋하지만 통제적인 유희주의자. 칼리오페 엔터프라이즈를 이끕니다." },
-        { name: "로건 최", code: "LG", type: "Non", role: "네오젠 CEO", arma: "없음", quote: "이정도로 하지. 자네 생각은 어떤가?", desc: "진중하고 무거운 분위기의 46세 남성. 날카로운 통찰력을 가졌습니다." },
-        { name: "강예설", code: "YS", type: "Non", role: "하이드라 CEO", arma: "없음", quote: "제 제안은 이정도겠네요. 어떠세요?", desc: "완벽주의적이고 분석적인 성격. 약간의 결벽증이 있는 하이드라의 수장입니다." },
-        { name: "박준형", code: "JH", type: "Non", role: "연구원(과거 네오젠)", arma: "없음", quote: "...쓰래기들, 죽어라!", desc: "에이전트와 빌런에게 딸을 잃고 복수를 꿈꾸는 테러리스트입니다." },
-        { name: "유진솔", code: "JS", type: "Non", role: "인포스피어 신입기자", arma: "없음", quote: "이거 완전 특종인데요?!", desc: "열정 넘치고 활발하며 순진한 23세 신입 기자입니다." },
-        { name: "표진우", code: "JW", type: "Non", role: "인포스피어 보도국장", arma: "없음", quote: "저희는 당신들이 아는것보다 훨씬 많은걸 알고있죠", desc: "계산적이고 교활한 성격. 감정을 잘 숨기는 35세 보도국장입니다." },
-        { name: "정재혁", code: "ZH", type: "Non", role: "인포스피어 선임기자", arma: "없음", quote: "절대 놓치면 안돼. 잘 배워둬", desc: "현실적이고 진중한 6년차 베테랑 기자입니다." }
+        // ■ 프리랜서 & 잔재
+        { name: "윤서우", code: "SW", type: "Freelancer", role: "프리랜서", arma: "『미믹』", quote: "도움도 안될거면, 짜져있어.", desc: "자유분방하고 현실적인 성격. 갈색 단발과 모자를 쓴 뒷골목 능력자입니다." },
+        { name: "네크로", code: "CR", type: "Special", role: "아르마의 잔재", arma: "『네크로노미콘』", quote: "가엾은것...", desc: "무감각한 사이코패스 성격. 몸 곳곳의 흉터와 보라색 눈, 금발 롱헤어가 특징입니다." }
     ];
-    
-    let currentSectionId = 'chars'; 
+
+    let currentSectionId = 'chars';
+    let currentFilter = 'all'; 
 
     function showSection(nextId) {
         if (currentSectionId === nextId) return;
@@ -290,15 +327,36 @@
         }, 400); 
     }
 
+    function setFilter(type, btnElement) {
+        currentFilter = type;
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+        renderChars();
+    }
+
     function renderChars() {
         const grid = document.getElementById('charGrid');
-        characters.forEach((char, i) => {
+        if(!grid) return;
+        
+        grid.innerHTML = "";
+        
+        const filtered = characters.filter(char => {
+            if (currentFilter === 'all') return true;
+            return char.type === currentFilter;
+        });
+
+        filtered.forEach((char) => {
+            const originalIndex = characters.indexOf(char);
             grid.innerHTML += `
-                <div class="char-card" onclick="openModal(${i})">
+                <div class="char-card" onclick="openModal(${originalIndex})">
                     <img src="${imgBase}${char.code}1.png" onerror="this.src='https://via.placeholder.com/300x400?text=DATA'">
                     <div class="char-card-body">
                         <div style="font-weight:bold; font-size:1.1rem;">${char.name}</div>
-                        <div style="font-size:0.8rem; color:${char.type==='Villain'?'#ff0055':'#00f2ff'}">${char.role}</div>
+                        <div style="font-size:0.8rem; color:${
+                            char.type==='Villain'?'#ff0055': 
+                            (char.type==='Agent'?'#00f2ff': 
+                            (char.type==='Special'?'#a0f':'#888'))
+                        }">${char.role}</div>
                     </div>
                 </div>
             `;
@@ -319,8 +377,7 @@
 
     function closeModal() { document.getElementById('charModal').style.display = 'none'; }
 
-    // 초기 실행
-    renderChars();
+    window.onload = renderChars;
 </script>
 </body>
 </html>
