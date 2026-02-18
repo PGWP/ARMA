@@ -277,6 +277,7 @@
 <script>
 const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
     
+    // [캐릭터 데이터는 기존과 동일합니다. 편의상 줄여두었으니 기존 데이터를 그대로 쓰셔도 됩니다]
     const characters = [
         // ■ 무능력자 (Non-Power)
         { name: "김현", code: "KH", type: "Non", role: "A.R.L 연구소장", arma: "없음", quote: "절차대로 진행하죠.", desc: "사무적이고 효율을 중시하는 33세 남성. 감정 절제가 뛰어납니다." },
@@ -284,7 +285,7 @@ const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
         { name: "이연희", code: "YH", type: "Non", role: "칼리오페 CEO", arma: "없음", quote: "음... 이정도는 어때? 솔직히 이정도도 많이 쳐준건데.", desc: "느긋하지만 통제적인 유희주의자. 칼리오페 엔터프라이즈를 이끕니다." },
         { name: "로건 최", code: "LG", type: "Non", role: "네오젠 CEO", arma: "없음", quote: "이정도로 하지. 자네 생각은 어떤가?", desc: "진중하고 무거운 분위기의 46세 남성. 날카로운 통찰력을 가졌습니다." },
         { name: "강예설", code: "YS", type: "Non", role: "하이드라 CEO", arma: "없음", quote: "제 제안은 이정도겠네요. 어떠세요?", desc: "완벽주의적이고 분석적인 성격. 약간의 결벽증이 있는 하이드라의 수장입니다." },
-        { name: "박준형", code: "JH", type: "Non", role: "연구원(과거 네오젠)", arma: "없음", quote: "...쓰레기들, 죽어라!", desc: "에이전트와 빌런에게 딸을 잃고 복수를 꿈꾸는 테러리스트입니다." },
+        { name: "박준형", code: "JH", type: "Non", role: "연구원(과거 네오젠)", arma: "없음", quote: "...쓰래기들, 죽어라!", desc: "에이전트와 빌런에게 딸을 잃고 복수를 꿈꾸는 테러리스트입니다." },
         { name: "유진솔", code: "JS", type: "Non", role: "인포스피어 신입기자", arma: "없음", quote: "이거 완전 특종인데요?!", desc: "열정 넘치고 활발하며 순진한 23세 신입 기자입니다." },
         { name: "표진우", code: "JW", type: "Non", role: "인포스피어 보도국장", arma: "없음", quote: "저희는 당신들이 아는것보다 훨씬 많은걸 알고있죠", desc: "계산적이고 교활한 성격. 감정을 잘 숨기는 35세 보도국장입니다." },
         { name: "정재혁", code: "ZH", type: "Non", role: "인포스피어 선임기자", arma: "없음", quote: "절대 놓치면 안돼. 잘 배워둬", desc: "현실적이고 진중한 6년차 베테랑 기자입니다." },
@@ -327,11 +328,30 @@ const imgBase = "https://raw.githubusercontent.com/PGWP/wt2/refs/heads/main/";
         }, 400); 
     }
 
+    // [수정] 필터 버튼 누를 때 애니메이션 효과 추가
     function setFilter(type, btnElement) {
-        currentFilter = type;
+        if (currentFilter === type) return; // 이미 같은 필터면 무시
+
+        const grid = document.getElementById('charGrid');
+        
+        // 1. 기존 카드들 사라지게 하기 (페이드 아웃)
+        grid.style.opacity = '0';
+        grid.style.transform = 'translateY(10px)';
+        grid.style.transition = '0.3s ease';
+
+        // 2. 버튼 활성화 표시 변경
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
         btnElement.classList.add('active');
-        renderChars();
+
+        // 3. 0.3초 뒤에 내용 바꾸고 다시 나타나게 하기
+        setTimeout(() => {
+            currentFilter = type;
+            renderChars(); // 데이터 교체
+            
+            // 페이드 인 (나타남)
+            grid.style.opacity = '1';
+            grid.style.transform = 'translateY(0)';
+        }, 300);
     }
 
     function renderChars() {
