@@ -124,13 +124,31 @@
             background-color: #000; /* 혹시 비율이 안 맞을 경우 빈 공간을 검은색으로 처리 */
         }
 
-        /* --- [수정] 한 줄에 2개씩 크게 보이도록 설정 --- */
+/* 1. 기본 설정 (모바일 우선 - 작은 화면 기준) */
         .char-grid { 
             display: grid; 
-            /* 화면 너비의 절반 정도(약 45% 이상)를 차지하도록 최소 너비 상향 */
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
-            gap: 30px; 
-            padding: 0 20px; /* 좌우 여백을 조금 주어 균형을 맞춤 */
+            grid-template-columns: 1fr; /* 모바일에서는 무조건 1줄에 1개 */
+            gap: 20px; 
+            padding: 0 15px; /* 양옆에 살짝 여백 줌 */
+        }
+
+        /* 2. PC/태블릿 설정 (화면이 768px보다 클 때만 적용) */
+        @media (min-width: 768px) {
+            .char-grid {
+                /* 화면이 커지면 2열로 바뀜 (최소 너비 300px 이상 확보) */
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+                gap: 30px; 
+                padding: 0; /* PC에서는 굳이 여백 안 줘도 됨 */
+            }
+        }
+
+        /* 3. 카드 이미지 공통 설정 */
+        .char-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 9 / 16; /* 세로로 긴 비율 유지 */
+            object-fit: cover;
+            object-position: top center;
         }
 
 /* --- [기존] 기본 설정 (PC/태블릿) --- */
