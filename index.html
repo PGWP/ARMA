@@ -141,21 +141,6 @@
             gap: 30px; 
             padding: 0 20px;
         }
-
-        /* --- [추가] 모바일 전용 설정 (화면이 좁을 때) --- */
-        @media (max-width: 768px) {
-            .char-grid {
-                /* 모바일에서는 무조건 한 줄에 1개씩 */
-                grid-template-columns: 1fr; 
-                gap: 20px;
-                padding: 0 10px; /* 좌우 여백을 줄여서 카드를 더 크게 보여줌 */
-            }
-            
-            .char-card img {
-                /* 모바일에서 이미지가 너무 길어 보이지 않게 비율 조정 (선택사항) */
-                aspect-ratio: 3 / 4; 
-            }
-        }
         
         .char-card-body { 
             padding: 15px; 
