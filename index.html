@@ -114,50 +114,35 @@
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
         }
         
-        /* --- [최종 수정] 캐릭터 카드 이미지 최적화 --- */
-        .char-card img { 
-            width: 100%; 
-            height: auto; /* 고정 높이 삭제: 이미지의 원래 높이에 맞춤 */
-            display: block;
-            object-fit: contain; /* 이미지가 상자 안에서 절대 잘리지 않도록 설정 */
-            border-bottom: 1px solid var(--border);
-            background-color: #000; /* 혹시 비율이 안 맞을 경우 빈 공간을 검은색으로 처리 */
-        }
-
-/* 1. 기본 설정 (모바일 우선 - 작은 화면 기준) */
+/* 1. 그리드 설정 (PC: 2열 / 모바일: 1열) */
         .char-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; /* 모바일에서는 무조건 1줄에 1개 */
+            display: grid;
+            /* 모바일(기본): 한 줄에 1개 */
+            grid-template-columns: 1fr; 
             gap: 20px; 
-            padding: 0 15px; /* 양옆에 살짝 여백 줌 */
+            padding: 0 20px;
         }
 
-        /* 2. PC/태블릿 설정 (화면이 768px보다 클 때만 적용) */
+        /* PC 화면(768px 이상): 한 줄에 2개 */
         @media (min-width: 768px) {
             .char-grid {
-                /* 화면이 커지면 2열로 바뀜 (최소 너비 300px 이상 확보) */
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-                gap: 30px; 
-                padding: 0; /* PC에서는 굳이 여백 안 줘도 됨 */
+                grid-template-columns: repeat(2, 1fr); 
             }
         }
 
-        /* 3. 카드 이미지 공통 설정 */
+        /* 2. 카드 이미지 설정 (가로로 긴 와이드 비율) */
         .char-card img {
             width: 100%;
-            height: auto;
-            aspect-ratio: 9 / 16; /* 세로로 긴 비율 유지 */
-            object-fit: cover;
-            object-position: top center;
-        }
-
-/* --- [기존] 기본 설정 (PC/태블릿) --- */
-        .char-grid { 
-            display: grid; 
-            /* PC에서는 한 줄에 여러 개 */
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
-            gap: 30px; 
-            padding: 0 20px;
+            height: auto; /* 높이 자동 조절 */
+            
+            /* [핵심] 가로:세로 = 16:9 비율 (유튜브 썸네일처럼 가로로 긴 형태) */
+            aspect-ratio: 16 / 9; 
+            
+            /* 이미지가 상자 안에 100% 다 들어오게 함 (절대 안 잘림) */
+            object-fit: contain; 
+            
+            background-color: #000; /* 빈 공간은 검은색 */
+            border-bottom: 1px solid var(--border);
         }
         
         .char-card-body { 
